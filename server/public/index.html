@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Display</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; padding: 20px; }
+        h1 { color: #333; }
+        #dataDisplay { margin-top: 20px; }
+        pre { background-color: #f4f4f4; padding: 10px; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>Received Data</h1>
+    <div id="dataDisplay">
+        <p>Waiting for data...</p>
+    </div>
+    <button onclick="fetchData()">Refresh Data</button>
+
+    <script>
+        function fetchData() {
+            fetch('/get-last-data')
+            .then(response => response.json())
+            .then(data => {
+                const dataDisplay = document.getElementById('dataDisplay');
+                if (Object.keys(data).length === 0) {
+                    dataDisplay.innerHTML = '<p>No data received yet.</p>';
+                } else {
+                    dataDisplay.innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+        // ページ読み込み時にデータを取得
+        fetchData();
+    </script>
+</body>
+</html>

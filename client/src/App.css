@@ -1,0 +1,101 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "游明朝体", "Yu Mincho", YuMincho, "ヒラギノ明朝 Pro", "Hiragino Mincho Pro", "MS P明朝", "MS PMincho", serif;
+  background-color: #f0f0f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.omikuji-container {
+  width: auto;
+  max-width: 90vw;
+  border: double 10px red;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.omikuji-paper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.omikuji-header h1 {
+  font-size: 2em;
+  margin: 0 0 10px 0;
+  text-align: center;
+}
+
+.omikuji-result {
+  font-size: 1.5em;
+  text-align: center;
+  color: red;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.omikuji-result h2 {
+  margin: 10px 0;
+}
+
+.omikuji-result p {
+  margin: 10px auto;
+  width: 80%;
+  max-height: 200px;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-all;
+  text-align: left;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.omikuji-content {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
+  gap: 40px;
+  overflow-x: auto;
+  width: 100%;
+  /* max-height: 400px; */
+  padding: 20px 0;
+  font-size: 1.5em;
+}
+
+.omikuji-column {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.category {
+  margin: 10px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.category-name {
+  color: red;
+  font-weight: bold;
+}
+
+.category-fortune {
+  margin-top: 0.5em;
+  /* max-width: 15em; */
+  word-break: break-all;
+}
