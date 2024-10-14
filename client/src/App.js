@@ -2,13 +2,15 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
 import './App.css';
-import omikujiBoxImage from './omikuji-box.png'; // 画像のインポート
+import domtoimage from 'dom-to-image';
+import omikujiBoxImage from './omikuji-box.png';
 
 function App() {
   const [omikujiData, setOmikujiData] = useState(null);
   const [animationKey, setAnimationKey] = useState(0);
   const [previousData, setPreviousData] = useState(null);
   const [isShaking, setIsShaking] = useState(false);
+  const [screenshotCount, setScreenshotCount] = useState(1);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -20,12 +22,11 @@ function App() {
           setPreviousData(newData);
           setIsShaking(true);
 
-          // Shake animation duration
           setTimeout(() => {
             setIsShaking(false);
             setOmikujiData(newData);
             setAnimationKey((prev) => prev + 1);
-          }, 2000); // Adjust this value to match your shake animation duration
+          }, 2000);
         }
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -37,14 +38,36 @@ function App() {
     return () => clearInterval(interval);
   }, [previousData]);
 
+  useEffect(() => {
+    if (omikujiData && !isShaking) {
+      const timer = setTimeout(() => {
+        captureScreenshot();
+      }, 7000); // アニメーション終了後に少し遅延を持たせる
+
+      return () => clearTimeout(timer);
+    }
+  }, [omikujiData, isShaking]);
+
+  const captureScreenshot = async () => {
+    const element = document.querySelector('.omikuji-container');
+    if (element) {
+      try {
+        const dataUrl = await domtoimage.toPng(element);
+        const link = document.createElement('a');
+        link.href = dataUrl;
+        link.download = `omikuji-screenshot-${screenshotCount}.png`;
+        link.click();
+        setScreenshotCount((count) => count + 1);
+      } catch (error) {
+        console.error('Screenshot capture failed:', error);
+      }
+    }
+  };
+
   const boxAnimation = {
     shake: {
       rotate: [-160, -165, -160, -155, -160, -165],
-      transition: {
-        duration: 0.5,
-        repeat: 2,
-        ease: "easeInOut",
-      },
+      transition: { duration: 0.5, repeat: 2, ease: 'easeInOut' },
     },
   };
 
@@ -55,23 +78,12 @@ function App() {
       opacity: [0, 1],
       rotate: [-5, 5, -3, 2, 0],
       transition: {
-        y: {
-          duration: 2,
-          times: [0, 0.6, 0.7, 0.8, 0.9, 1],
-          ease: "easeOut"
-        },
-        opacity: {
-          duration: 0.5,
-          delay: 0.5
-        },
-        rotate: {
-          duration: 2,
-          yoyo: Infinity,
-          ease: "easeInOut"
-        }
-      }
+        y: { duration: 2, times: [0, 0.6, 0.7, 0.8, 0.9, 1], ease: 'easeOut' },
+        opacity: { duration: 0.5, delay: 0.5 },
+        rotate: { duration: 2, yoyo: Infinity, ease: 'easeInOut' },
+      },
     },
-    exit: { y: 1000, opacity: 0, transition: { duration: 0.5 } }
+    exit: { y: 1000, opacity: 0, transition: { duration: 0.5 } },
   };
 
   return (
@@ -86,7 +98,6 @@ function App() {
           >
             <img src={omikujiBoxImage} alt="おみくじ箱" className="omikuji-box-image" />
           </motion.div>
-
         ) : omikujiData ? (
           <motion.div
             key={animationKey}

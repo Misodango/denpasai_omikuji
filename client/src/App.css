@@ -13,6 +13,7 @@ body {
   width: auto;
   max-width: 90vw;
   border: double 10px red;
+  background: #f0f0f0;
   display: flex;
   flex-direction: column;
   align-items: center;
