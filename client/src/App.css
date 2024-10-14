@@ -99,3 +99,12 @@ body {
   /* max-width: 15em; */
   word-break: break-all;
 }
+
+.omikuji-box {
+  max-width: 400;
+  max-height: 400;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
