@@ -3,6 +3,7 @@ import axios from 'axios';
 import './App.css';
 
 function App() {
+  console.log('App component rendering');
   const [omikujiData, setOmikujiData] = useState(null);
 
   useEffect(() => {
@@ -22,6 +23,7 @@ function App() {
   }, []);
 
   if (!omikujiData) {
+    console.log('Dat not loaded yet');
     return <div>Loading...</div>;
   }
 
